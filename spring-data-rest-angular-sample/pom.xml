@@ -6,6 +6,8 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Spring Data Rest + AngularJS</name>
   <description>This project uses Spring Data Rest and AngularJS to perform CRUD operations against MySql Database.</description>
+  <packaging>war</packaging>
+  
   <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -34,7 +36,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>com.programmingfree.springservice.Application</start-class>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 
 	<build>
