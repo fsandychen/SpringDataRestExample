@@ -9,14 +9,22 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @Configuration
 @ComponentScan
 @EnableJpaRepositories
 @Import(RepositoryRestMvcConfiguration.class)
 @EnableAutoConfiguration
-@PropertySource("application.properties")
-public class Application {
+@PropertySource("classpath:application.properties")
+public class Application extends SpringBootServletInitializer{
+	
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
+    }
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);			
