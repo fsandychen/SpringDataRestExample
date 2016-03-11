@@ -1,0 +1,30 @@
+[
+  {
+    "description": "頁面是否存在",
+    "assertions": [
+      {
+        "passed": true
+      },
+      {
+        "passed": false,
+        "errorMsg": "expected 'AngularJS Task Manager' to equal 'AngularJS Task Manager1'",
+        "stackTrace": "AssertionError: expected 'AngularJS Task Manager' to equal 'AngularJS Task Manager1'"
+      }
+    ],
+    "duration": 4251835351
+  },
+  {
+    "description": "資料顯示正確",
+    "assertions": [
+      {
+        "passed": true
+      },
+      {
+        "passed": false,
+        "errorMsg": "expected [ Array(5) ] to have a length of 4 but got 5",
+        "stackTrace": "AssertionError: expected [ Array(5) ] to have a length of 4 but got 5\n    at /project/features/steps/step_taskManager.js:19:26\n    at [object Object].promise.Promise.goog.defineClass.invokeCallback_ (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/goog/../webdriver/promise.js:1337:14)\n    at [object Object].promise.ControlFlow.goog.defineClass.goog.defineClass.abort_.error.executeNext_.execute_ (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/goog/../webdriver/promise.js:2776:14)\n    at [object Object].promise.ControlFlow.goog.defineClass.goog.defineClass.abort_.error.executeNext_ (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/goog/../webdriver/promise.js:2758:21)\n    at goog.async.run.processWorkQueue (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/goog/async/run.js:124:15)\n    at process._tickCallback (node.js:402:9)"
+      }
+    ],
+    "duration": 562421945
+  }
+]
