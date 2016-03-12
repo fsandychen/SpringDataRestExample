@@ -4,7 +4,7 @@ var taskManager = function() {
 	
 	/*------------------------ Given ------------------------*/
 	Given(/I go to home/, function(callback) {
-		browser.get('http://139.196.197.135:32769/spring-data-rest-angular/home');
+		browser.get('http://webe2e:8080/spring-data-rest-angular/home');
 		callback();
 	});
 

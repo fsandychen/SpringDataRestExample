@@ -1,0 +1,8 @@
+version: '2'
+services:
+  protractor:
+    image: agilebot/protractor:latest
+    volumes:
+        - $PWD/webapp:/project
+    links:
+        - web:webe2e
