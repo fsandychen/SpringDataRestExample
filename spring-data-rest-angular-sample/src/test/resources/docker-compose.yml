@@ -1,24 +1,28 @@
 version: '2'
 services:
   protractor:
-    image: protractor/.
+    build: protractor/.
     depends_on:
         - web
     links:
         - web:webe2e
-    entrypoint: /tmp/wait-for-it.sh web:8080 -- /usr/bin/supervisord "-n -c /etc/supervisor/supervisor.conf"
+    environment:
+          MANUAL: "yes"
+          JAVA_MAXMEMORY: "512"
+          JAVA_STARTMEMORY: "512"
+    entrypoint: ./wait-for-it.sh web:8080 -- /usr/bin/supervisord -n -c /etc/supervisor/supervisor.conf
   web:
     build: tomcat/.
     ports:
-     - "8080"
+      - "8080"
     depends_on:
       - db
     links:
       - db:mysql
-    entrypoint: /tmp/wait-for-it.sh db:3306 -- catalina.sh run
+    entrypoint: ./wait-for-it.sh db:3306 -- catalina.sh run
   db:
     build: mysql/.
     expose:
-     - "3306"
+       - "3306"
     environment:
-           MYSQL_ROOT_PASSWORD: my-secret-pw
+         MYSQL_ROOT_PASSWORD: "my-secret-pw"
