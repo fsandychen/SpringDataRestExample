@@ -83,7 +83,6 @@ config = {
         loginId: '',
         forceRefresh: false
     },
-    resultJsonOutputFile: 'result/result.json',
 
     // ---------------------------------------------------------------------------
     // ----- The test framework --------------------------------------------------
@@ -101,7 +100,7 @@ config = {
             process.env.tags || '@E2E,@SMOKE,@REGRESSION,@FUNCTIONALITY',
             '~@X'
         ],
-        format: 'summary'
+        format: ['pretty', 'json:result/cucumber.json'],
     }
 };
 
@@ -110,7 +109,6 @@ env = {
     browserName: process.env.browserName || 'chrome', // chrome || firefox || internet explorer
     tags: process.env.tags || '@E2E,@SMOKE,@REGRESSION,@FUNCTIONALITY',
     parallel: process.env.parallel || 'off',
-    report: process.env.report || 'result',
     clearResult: process.env.clearResult || 'on',
     excludeMode: process.env.excludeMode || 'off'
 };
@@ -118,6 +116,5 @@ for (var i in env) env[i] = env[i].trim();
 
 config.capabilities.browserName = env.browserName;
 config.cucumberOpts.tags = [env.tags, '~@X'];
-config.resultJsonOutputFile = 'result/' + env.report + '.json';
 
 exports.config = config;
