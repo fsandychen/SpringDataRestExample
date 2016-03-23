@@ -1,0 +1,11 @@
+- hosts: center
+  remote_user: agileuser
+  sudo: yes
+  vars_files:
+  - secret
+
+- name: install env
+  roles:
+    - role: consul
+    - role: registrator
+  tags: [install]

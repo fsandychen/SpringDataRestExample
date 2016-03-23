@@ -1,0 +1,17 @@
+- name: Get docker0 ip
+  shell: ip route | awk '/docker0/ { print $NF }'
+  register: docker0_ip
+
+- name: Consul master is running
+  docker:
+    name: consul_master
+    hostname: node1
+    image: progrium/consul
+    ports:
+     - "8400:8400"
+     - "8500:8500"
+     - "8600:53/udp"
+    command: "-server -bootstrap -advertise {{docker0_ip.stdout}}"
+    restart_policy: always
+  when: consul_master 
+  tags: [consul]
