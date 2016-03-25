@@ -1,0 +1,11 @@
+- name: Nginx-proxy is running
+  docker:
+    name: nginx-proxy
+    hostname: nginx-proxy
+    image: agilebot/nginx-proxy
+    links:
+      - consul_master
+    ports:
+      - "8080:80"
+    restart_policy: always
+  tags: [nginx-proxy]

@@ -1,8 +1,26 @@
 
-- name: install env
+- name: install center env
   hosts: center
   become: yes
+  
+#  pre_tasks:
+#    - name: install python 
+#      raw: apt-get update && apt-get -y install python-simplejson
+
   roles:
     - role: consul
     - role: registrator
-  tags: [install]
+    - role: nginx-proxy
+
+  tasks:
+    - name: deploy directory is present
+      file:
+        path: deploy
+        state: directory
+        mode: 0777
+
+    - name: Copy files to deploy dir
+      synchronize : src="files/" dest="deploy"
+
+    - name: exec docker-compare to up service
+      shell: docker-compose -f deploy/services.yml --project-name=app-0001 up -d

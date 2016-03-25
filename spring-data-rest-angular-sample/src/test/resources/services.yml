@@ -1,0 +1,17 @@
+version: '2'
+services:
+  web:
+    build: tomcat/.
+    ports:
+      - "8080"
+    depends_on:
+      - db
+    links:
+      - db:mysql
+    entrypoint: ./wait-for-it.sh db:3306 -- catalina.sh run
+  db:
+    build: mysql/.
+    expose:
+       - "3306"
+    environment:
+         MYSQL_ROOT_PASSWORD: "my-secret-pw"

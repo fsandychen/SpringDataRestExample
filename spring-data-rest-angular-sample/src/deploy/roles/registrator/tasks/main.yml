@@ -7,4 +7,4 @@
     image: gliderlabs/registrator
     command: consul://{{ consul_master_ip }}:8500
     restart_policy: always
-  tags: [consul]
+  tags: [registrator]
