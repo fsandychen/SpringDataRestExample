@@ -3,24 +3,35 @@
   hosts: center
   become: yes
   
-#  pre_tasks:
+  pre_tasks:
 #    - name: install python 
-#      raw: apt-get update && apt-get -y install python-simplejson
+#      raw: apt-get update && apt-get -y install python-simplejson  pip install python-consul
+
+#    - name: install python-consul 
+#      pip: name=python-consul
+
+#    - name: deploy directory is present
+#      file:
+#        path: deploy
+#        state: directory
+#        mode: 0777
+
+#   - name: Copy files to deploy dir
+#     synchronize : src="files/" dest="deploy"
 
   roles:
-    - role: consul
-    - role: registrator
+#    - role: consul
+#    - role: registrator
     - role: nginx-proxy
+      service_name: "{{ deploy_env }}.app"
 
-  tasks:
-    - name: deploy directory is present
-      file:
-        path: deploy
-        state: directory
-        mode: 0777
+#  tasks:
+#    - name: exec docker-compare to up service
+#      shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{ project_release_no }} up -d
 
-    - name: Copy files to deploy dir
-      synchronize : src="files/" dest="deploy"
-
-    - name: exec docker-compare to up service
-      shell: docker-compose -f deploy/services.yml --project-name=app-0001 up -d
+#    - name: add a node to an  group via consul inventory
+#      consul_kv:
+#        host: 139.196.48.143
+#        port: 8500
+#        key: service/node/version/started
+#        value: "{{ project_release_no }}"
