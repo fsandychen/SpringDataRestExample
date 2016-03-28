@@ -1,0 +1,13 @@
+version: '2'
+services:
+  protractor:
+    build: protractor/.
+    depends_on:
+        - web
+    links:
+        - web:webe2e
+    environment:
+          MANUAL: "yes"
+          JAVA_MAXMEMORY: "512"
+          JAVA_STARTMEMORY: "512"
+    entrypoint: ./wait-for-it.sh web:8080 -- /usr/bin/supervisord -n -c /etc/supervisor/supervisor.conf

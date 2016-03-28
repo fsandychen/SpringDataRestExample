@@ -8,5 +8,5 @@ services:
 networks:
   default:
     external:
-      name: "{{ deploy_env }}-network"
+      name: "staging-network"
         
