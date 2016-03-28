@@ -1,32 +1,17 @@
-- name: deploy directory is present
-  file:
-    path: nginx
-    state: directory
-    mode: 0777
-  tags: [nginx-proxy]
-
-- name: Install nginx vhost
-  template: src=nginx.j2 dest=nginx/nginx1.conf
-  tags: [nginx-proxy]
-
-- name: Copy files to deploy dir
-  synchronize : src="files/nginx/" dest="nginx"
-  tags: [nginx-proxy]
-
-- name: check or build image
-  docker_image: path="nginx" name="agilebot/nginx-proxy-config" state=build
-  tags: [nginx-proxy]
 
 - name: Nginx-proxy is running
   docker:
     name: nginx-proxy
     hostname: nginx-proxy
-    image: agilebot/nginx-proxy-config
+    image: agilebot/nginx-proxy
+    net: "{{ network_name }}"
     env:
        CONSUL: "consul:8500"
+       SERVICE: "{{ service_name }}"
     links:
-      - consul_master:consul
+       - "{{ consul_name }}:consul"
     ports:
       - "8888:80"
+    state: restarted
     restart_policy: always
   tags: [nginx-proxy]

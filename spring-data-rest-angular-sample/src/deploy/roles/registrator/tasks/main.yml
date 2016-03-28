@@ -5,6 +5,9 @@
       - /var/run/docker.sock:/tmp/docker.sock
     hostname: registrator
     image: gliderlabs/registrator
-    command: consul://{{ consul_master_ip }}:8500
+    net: "{{ network_name }}"
+    command: consul://consul:8500
+    links:
+      - "{{ consul_name }}:consul"
     restart_policy: always
   tags: [registrator]

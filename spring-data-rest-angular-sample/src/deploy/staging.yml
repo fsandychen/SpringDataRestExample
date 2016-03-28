@@ -4,4 +4,9 @@ services:
     environment: 
        SERVICE_NAME: app
        SERVICE_TAGS: staging
+
+networks:
+  default:
+    external:
+      name: "{{ deploy_env }}-network"
         

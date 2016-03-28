@@ -10,28 +10,34 @@
 #    - name: install python-consul 
 #      pip: name=python-consul
 
-#    - name: deploy directory is present
-#      file:
-#        path: deploy
-#        state: directory
-#        mode: 0777
-
-#   - name: Copy files to deploy dir
-#     synchronize : src="files/" dest="deploy"
+    - name: Cretae docker create
+      shell: docker network create "{{ deploy_env }}-network"
 
   roles:
-#    - role: consul
-#    - role: registrator
+    - role: consul
+      network_name: "{{ deploy_env }}-network" 
+    - role: registrator
+      network_name: "{{ deploy_env }}-network"
     - role: nginx-proxy
       service_name: "{{ deploy_env }}.app"
+      network_name: "{{ deploy_env }}-network"
 
-#  tasks:
-#    - name: exec docker-compare to up service
-#      shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{ project_release_no }} up -d
+  tasks:
+    - name: deploy directory is present
+      file:
+        path: deploy
+        state: directory
+        mode: 0777
 
-#    - name: add a node to an  group via consul inventory
-#      consul_kv:
-#        host: 139.196.48.143
-#        port: 8500
-#        key: service/node/version/started
-#        value: "{{ project_release_no }}"
+    - name: Copy files to deploy dir
+      synchronize : src="files/" dest="deploy"
+
+    - name: exec docker-compare to up service
+      shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{ project_release_no }} up -d
+
+    - name: add a node to an  group via consul inventory
+      consul_kv:
+        host: 139.196.48.143
+        port: 8500
+        key: service/node/version/started
+        value: "{{ project_release_no }}"

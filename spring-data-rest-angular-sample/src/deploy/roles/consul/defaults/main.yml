@@ -1,1 +1,2 @@
-consul_master: false
+consul_name: consul
+network_name: bridge
