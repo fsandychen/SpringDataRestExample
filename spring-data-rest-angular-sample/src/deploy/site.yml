@@ -35,6 +35,10 @@
     - name: exec docker-compare to up service
       shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{ project_release_no }} up -d
 
+    - name: exec docker-compare to scale service
+      shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{ project_release_no }} scale {{ scale_service }}
+      when {{ scale_service }} != "" 
+
     - name: add a node to an  group via consul inventory
       consul_kv:
         host: 139.196.48.143

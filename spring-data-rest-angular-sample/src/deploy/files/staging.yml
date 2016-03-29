@@ -8,5 +8,5 @@ services:
 networks:
   default:
     external:
-      name: "staging-network"
+      name: staging-network
         

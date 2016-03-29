@@ -2,7 +2,7 @@ version: '2'
 services:
   web:
     build: tomcat/.
-    ports:
+    expose:
       - "8080"
     depends_on:
       - db

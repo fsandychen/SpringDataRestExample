@@ -8,6 +8,6 @@
      - "8400:8400"
      - "8500:8500"
      - "8600:53/udp"
-    command: "-server -bootstrap "
+    command: "-server -bootstrap"
     restart_policy: always
   tags: [consul]

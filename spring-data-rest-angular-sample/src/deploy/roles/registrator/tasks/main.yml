@@ -4,9 +4,9 @@
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
     hostname: registrator
-    image: gliderlabs/registrator
+    image: gliderlabs/registrator:master
     net: "{{ network_name }}"
-    command: consul://consul:8500
+    command: "-internal consul://consul:8500"
     links:
       - "{{ consul_name }}:consul"
     restart_policy: always
