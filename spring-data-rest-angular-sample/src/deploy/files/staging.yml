@@ -1,12 +1,37 @@
 version: '2'
 services:
+  proxy:
+    image: agilebot/nginx-proxy
+    environment:
+       CONSUL: "139.196.48.143:8500"
+       SERVICE: "staging.app"
+    ports:
+      - "8888:80"
+
   web:
     environment: 
        SERVICE_NAME: app
        SERVICE_TAGS: staging
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://139.196.48.143:12201
+        tag: "staging"
+        labels: "web"
 
+  db:
+    name:
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://139.196.48.143:12201
+        tag: "staging"
+        labels: "db"
+	
 networks:
   default:
     external:
       name: staging-network
+
+
         
