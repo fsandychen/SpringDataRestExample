@@ -1,0 +1,20 @@
+
+#install 
+docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name=app_base up -d
+
+#scale
+docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name=app_base scale {{ scale_services }}
+
+#uninstall
+docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name=app_base down
+
+
+
+#deploy
+docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name={{ project_release_no }} up --no-deps -d  {{ services }}
+
+docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name={{ project_release_no }} scale {{ scale_services }}
+
+docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name={{ old_project_release_no }} stop {{ services }}
+
+docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name={{ old_project_release_no }} rm -f {{ services }}
