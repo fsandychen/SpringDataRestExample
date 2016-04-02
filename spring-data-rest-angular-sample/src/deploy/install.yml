@@ -40,6 +40,7 @@
       when {{ scale_service }} != "" 
 
     - name: add a node to an  group via consul inventory
+      delegate_to: localhost
       consul_kv:
         host: 139.196.48.143
         port: 8500

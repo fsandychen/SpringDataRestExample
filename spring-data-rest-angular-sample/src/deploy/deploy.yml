@@ -6,28 +6,41 @@
   environment:  
     ANSIBLE_CONSUL_URL: "http://139.196.48.143:8500"
   vars:
-    consul_kv_result: "{{ lookup('consul_kv','service/node/version/started','http://139.196.48.143:8500') }}"
+    consul_kv_result: "{{ lookup('consul_kv','service/node/version/started') }}"
 
 
   tasks:  
 #    - name: Copy files to deploy dir
 #      synchronize : src="files/" dest="deploy"
-  - name: add a node to an  group via consul inventory
-    consul_kv:
-      host: "139.196.48.143"
-      port: "8500"
-      key: "service/node/version/started"
-      value: "{{ project_release_no }}"
 
 
-  - debug: msg='key contains {{item}}'
-    delegate_to: localhost
+  - name: exec docker-compare to up service
+    shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name={{ project_release_no }} up --no-deps -d  {{ services }}
+
+  - name: exec docker-compare to up service
+    shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{item}} stop {{ services }}
     with_consul_kv:
       - 'service/node/version/started'
-    environment:  
-      ANSIBLE_CONSUL_URL: "http://139.196.48.143:8500"
 
-  - name: Copy files to deploy dir 
-    debug: msg="{{ consul_kv_result }}"
-    environment:  
-      ANSIBLE_CONSUL_URL: "http://139.196.48.143:8500"
+  - name: exec docker-compare to up service
+    shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{item}} rm -f {{ services }}
+    with_consul_kv:
+      - 'service/node/version/stoped'
+
+  - name: add a node to an  group via consul inventory
+    delegate_to: localhost
+    consul_kv:
+      host: 139.196.48.143
+      port: 8500
+      key: service/node/version/stoped
+      value: "{{item}}"
+    with_consul_kv:
+        - 'service/node/version/started'
+
+  - name: add a node to an  group via consul inventory
+    delegate_to: localhost
+    consul_kv:
+      host: 139.196.48.143
+      port: 8500
+      key: service/node/version/started
+      value: "{{ project_release_no }}"
