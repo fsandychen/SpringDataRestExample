@@ -1,0 +1,15 @@
+
+
+- name: rollback center env
+  hosts: center
+  become: yes
+
+  tasks:
+
+  - name: Synchronize task bug workaround
+    set_fact:
+      ansible_ssh_user: "{{ansible_ssh_user}}"
+      ansible_ssh_pass: "{{ansible_ssh_pass}}"
+
+  - name: Copy files to deploy dir
+    synchronize : src="files/" dest="deploy"
