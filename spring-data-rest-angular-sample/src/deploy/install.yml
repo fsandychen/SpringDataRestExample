@@ -4,13 +4,20 @@
   become: yes
   
   pre_tasks:
-#    - name: install python 
-#      raw: apt-get update && apt-get -y install python-simplejson  pip
+    - name: install python 
+      raw: apt-get update && apt-get -y install python-simplejson  pip
 
-#    - name: install python-consul 
-#      pip: name=python-consul
+    - name: install python-consul 
+      pip: name=python-consul
 
-    - name: Cretae docker create
+    - name: INIT | Generating RSA key for root
+     delegate_to: localhost
+     user: name=jenkins generate_ssh_key=yes
+
+    - name: INIT | Install ssh public key from current account
+     authorized_key: user="{{ ansible_ssh_user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: INIT | Cretae docker create
       shell: docker network create "{{ deploy_env }}-network"
 
   roles:

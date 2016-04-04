@@ -6,10 +6,45 @@
 
   tasks:
 
-  - name: Synchronize task bug workaround
-    set_fact:
-      ansible_ssh_user: "{{ansible_ssh_user}}"
-      ansible_ssh_pass: "{{ansible_ssh_pass}}"
-
   - name: Copy files to deploy dir
     synchronize : src="files/" dest="deploy"
+
+  - name: add a rollbacked node to consul inventory
+    delegate_to: localhost
+    consul_kv:
+      host: 139.196.48.143
+      port: 8500
+      key: service/node/version/rollbacked
+      value: "{{item}}"
+    with_consul_kv:
+        - 'service/node/version/started'
+
+  - name: exec docker-compare rollback to stoped service
+    shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{item}} start {{ services }}
+    with_consul_kv:
+      - 'service/node/version/stoped'
+
+  - name: add a started node to consul inventory
+    delegate_to: localhost
+    consul_kv:
+      host: 139.196.48.143
+      port: 8500
+      key: service/node/version/started
+      value: "{{item}}"
+    with_consul_kv:
+        - 'service/node/version/stoped'
+
+  - name: exec docker-compare stop rollbacked service
+    shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{item}} stop {{ services }}
+    with_consul_kv:
+      - 'service/node/version/rollbacked'
+
+  - name: add a stoped node to consul inventory
+    delegate_to: localhost
+    consul_kv:
+      host: 139.196.48.143
+      port: 8500
+      key: service/node/version/stoped
+      value: "{{item}}"
+    with_consul_kv:
+        - 'service/node/version/rollbacked'

@@ -6,11 +6,9 @@
   environment:  
     ANSIBLE_CONSUL_URL: "http://139.196.48.143:8500"
 
-
   tasks:  
-    - name: Copy files to deploy dir
-      synchronize : src="files/" dest="deploy" set_remote_user=no
-
+  - name: Copy files to deploy dir
+    synchronize : src="files/" dest="deploy"
 
   - name: exec docker-compare to up service
     shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name={{ project_release_no }} up --no-deps -d  {{ services }}
