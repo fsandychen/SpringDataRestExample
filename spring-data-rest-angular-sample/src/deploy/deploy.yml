@@ -13,6 +13,10 @@
   - name: exec docker-compare to up service
     shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/staging.yml  --project-name={{ project_release_no }} up --no-deps -d  {{ services }}
 
+    - name: exec docker-compare to scale service
+      shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{ project_release_no }} scale {{ scale_service }}
+      when {{ scale_service }} != "" 
+
   - name: exec docker-compare to stop service
     shell: docker-compose -f /home/agileuser/deploy/services.yml -f /home/agileuser/deploy/{{ deploy_env }}.yml  --project-name={{item}} stop {{ services }}
     with_consul_kv:
