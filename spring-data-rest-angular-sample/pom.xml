@@ -104,7 +104,36 @@
       			<releaseProfiles>releases</releaseProfiles>
    			  </configuration>
              </plugin>
-		</plugins>
-		
+		</plugins>	
 	</build>
+	
+	<profiles>
+   <profile>
+      <id>releases</id>
+      <build>
+         <plugins>
+            <plugin>
+               <groupId>org.sonatype.plugins</groupId>
+               <artifactId>nexus-staging-maven-plugin</artifactId>
+               <version>1.5.1</version>
+               <executions>
+                  <execution>
+                     <id>default-deploy</id>
+                     <phase>deploy</phase>
+                     <goals>
+                        <goal>deploy</goal>
+                     </goals>
+                  </execution>
+               </executions>
+               <configuration>
+                  <serverId>nexus-releases</serverId>
+                  <nexusUrl>http://139.196.19.48:8081/content/repositories/releases/</nexusUrl>
+                  <skipStaging>true</skipStaging>
+               </configuration>
+            </plugin>
+         </plugins>
+      </build>
+   </profile>
+ </profiles>
+	
 </project>
