@@ -6,7 +6,9 @@
     <artifactId>spring-data-rest-angular</artifactId>  
     <version>0.0.1-SNAPSHOT</version>  
   </parent>  
-  
+
+<pluginManagement>
+ <plugins>  
   <plugin>
    <groupId>org.apache.maven.plugins</groupId>
    <artifactId>maven-release-plugin</artifactId>
@@ -17,6 +19,8 @@
       <releaseProfiles>releases</releaseProfiles>
    </configuration>
   </plugin>
+  </plugins>
+ </pluginManagement>
 
  <profiles>
    <profile>
