@@ -3,7 +3,7 @@
   
   <groupId>com.programmingfree</groupId>
   <artifactId>spring-data-rest-angular</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <name>Spring Data Rest + AngularJS</name>
   <description>This project uses Spring Data Rest and AngularJS to perform CRUD operations against MySql Database.</description>
   <packaging>war</packaging>
