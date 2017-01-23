@@ -8,6 +8,8 @@ services:
       - db
     links:
       - db:mysql
+    environment:
+        JAVA_OPTS: "-Xmx512m"
     entrypoint: ./wait-for-it.sh db:3306 -- catalina.sh run
   db:
     build: mysql/.
