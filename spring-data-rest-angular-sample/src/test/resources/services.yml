@@ -9,7 +9,7 @@ services:
     links:
       - db:mysql
     environment:
-      - JAVA_OPTS: "-Xmx1024m -Xms512m -XX:MaxPermSize=1024m"
+         JAVA_OPTS: "-Xmx1024m -Xms512m -XX:MaxPermSize=1024m"
     entrypoint: ./wait-for-it.sh db:3306 -- catalina.sh run
   db:
     build: mysql/.
